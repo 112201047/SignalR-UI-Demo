@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace SignalR_UI_Demo
 
         private static readonly HttpClient http = new HttpClient();
 
-        private const string FunctionBaseUrl = "http://signalr-functionapp-demo.azurewebsites.net/api";
+        private const string FunctionBaseUrl = "https://signalr-functionapp-demo.azurewebsites.net/api";
 
         public MainWindow()
         {
@@ -46,10 +47,15 @@ namespace SignalR_UI_Demo
                         .WithUrl(negotiateObj!.Url!, options =>
                         {
                             options.AccessTokenProvider = () => Task.FromResult(negotiateObj.AccessToken);
+                            options.Transports = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
                         })
                         .WithAutomaticReconnect()
                         .Build();
 
+
+
+                    string joinUrl = $"{FunctionBaseUrl}/JoinGroup?meetingId={meetingId}&userId={userId}";
+                    await http.PostAsync(joinUrl, null);
 
                     hubConnection.On<string, string>("ReceiveDoubt", (senderId, msg) =>
                     {
@@ -60,9 +66,6 @@ namespace SignalR_UI_Demo
                     });
 
                     await hubConnection.StartAsync();
-
-                    string joinUrl = $"{FunctionBaseUrl}/JoinGroup?meetingId={meetingId}&userId={userId}";
-                    await http.PostAsync(joinUrl, null);
 
                     isConnected = true;
                     ConnectButton.Content = "Disconnect";
