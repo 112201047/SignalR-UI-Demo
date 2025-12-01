@@ -30,6 +30,7 @@
                 <Label Content="Status:" Width="50" VerticalContentAlignment="Center"/>
                 <TextBlock x:Name="StatusTextBlock" Width="500" VerticalAlignment="Center"/>
             </StackPanel>
+            
             <!-- CHAT -->
             <TextBox x:Name="ChatDisplayTextBox"
              Height="200"
