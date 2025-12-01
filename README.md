@@ -49,6 +49,6 @@ This UI is built purely for testing and demonstration purposes and requires no a
 ## Function App
 The implementation of the function app is done in the following repo:
 
-[SignalR Function App Repository](https://github.com/112201047/SingalR-FunctionApp-Demo)
+[SingalR-FunctionApp-Demo](https://github.com/112201047/SingalR-FunctionApp-Demo)
 
 **Note:** The function app has already been deployed and the API endpoints are up.
